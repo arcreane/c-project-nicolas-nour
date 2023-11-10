@@ -1,22 +1,24 @@
 #include <stdio.h>
+#include <ctype.h>
+#include "file.h"
 
 int main()
 {
-    char language;
-    int frequencyFileNameSize = 17;
-    char frequencyFile[frequencyFileNameSize];
+    const int freqFileNameSize = 20;
+    int language;
+    char frequencyFile[2][20] = {"EngLetterFreq.txt", "FraLetterFreq.txt"};
 
-    printf("Hello, please choose a language:\n   [1] for English\n   [2] for French\n");
-    scanf("%c", &language);
-    if (language == '1')
+    printf("Hello, please choose a language:\n   [0] for English\n   [1] for French\n");
+    scanf("%d", &language);
+    if (language != 0 && language != 1)
     {
-        printf("You have chosen English.");
-        frequencyFile[frequencyFileNameSize] = 'EngLetterFreq.txt';
-    } else if (language == '2')
-    {
-        printf("You have chosen French.");
-        frequencyFile[frequencyFileNameSize] = 'FraLetterFreq.txt';
+        while (language != 0 && language != 1)
+        {
+            printf("Oops, your choice is not correct, please try again: ");
+            scanf("%d", &language);
+        }
     }
+    readFrequencyFile(language, freqFileNameSize, &frequencyFile[0][0]);
 
     return 0;
 }
