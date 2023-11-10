@@ -1,5 +1,11 @@
 # c-project-nicolas-nour
 
+## Objective
+
+The objective of this project is to code a method of statistical data compression that reduces the
+length of the coding of an alphabet, i.e. such that the average length of a coded text is minimal.
+This method is the basis of the Huffman code.
+
 ## Git commands
 
 ### Commit a new change

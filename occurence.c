@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <strings.h>
 
-const int nbLetterAlphabet = 26; // Number of letters in the alphabet (lowercase only exculding accents)
+const int nbAscii = 128; // Number of letters in the alphabet (lowercase only exculding accents)
 
-void getOccurence(char filename[], int letterOccurence[nbLetterAlphabet])
+void getOccurence(char filename[], int characterOccurence[nbAscii])
 {
     FILE *file;
-    char ch;
+    unsigned char ch;
 
     file = fopen(filename, "r");
 
@@ -17,10 +18,7 @@ void getOccurence(char filename[], int letterOccurence[nbLetterAlphabet])
     }
 
     while ((ch = fgetc(file)) != EOF) {
-        if (isalpha(ch)) { // Is a letter?
-            ch = tolower(ch); // Convert to lowercase
-            letterOccurence[ch - 'a']++; // Increment the count for the corresponding letter
-        }
+        characterOccurence[ch]++; // Increment the count for the corresponding letter
     }
 
     fclose(file);
@@ -28,17 +26,18 @@ void getOccurence(char filename[], int letterOccurence[nbLetterAlphabet])
 
 int main() {
     char filename[100];
-    int letterOccurence[26] = {0}; // Initialize an array to store the occurence of each letter (case-insensitive)
+    int characterOccurence[nbAscii]; // Initialize an array to store the occurence of each letter (case-insensitive)
+    memset(characterOccurence, 0, nbAscii*sizeof(int));
 
     printf("Enter the filename: ");
     scanf("%s", filename);
 
-    getOccurence(filename, letterOccurence);
+    getOccurence(filename, characterOccurence);
 
     // Display the letter count
-    for (int i = 0; i < 26; i++) {
-        if (letterOccurence[i] > 0) {
-            printf("%c: %d\n", 'a' + i, letterOccurence[i]);
+    for (int i = 0; i < nbAscii; i++) {
+        if (characterOccurence[i] > 0) {
+            printf("%c: %d\n", i, characterOccurence[i]);
         }
     }
 
