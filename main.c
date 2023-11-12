@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <ctype.h>
-#include "file.h"
+#include "huffman.h"
 
 int main()
 {
-    const int freqFileNameSize = 20;
     int language;
-    char frequencyFile[2][20] = {"EngLetterFreq.txt", "FraLetterFreq.txt"};
+    char data[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    unsigned freq[] = {815, 97, 315, 373, 1739, 112, 97, 85, 731, 45, 2, 569, 287, 712, 528, 280, 121, 664, 814, 722, 638, 164, 3, 41, 28, 15};
+    int size = sizeof(data) / sizeof(data[0]);
 
     printf("Hello, please choose a language:\n   [0] for English\n   [1] for French\n");
     scanf("%d", &language);
@@ -18,7 +19,9 @@ int main()
             scanf("%d", &language);
         }
     }
-    readFrequencyFile(language, freqFileNameSize, &frequencyFile[0][0]);
+
+    printf("Huffman Codes:\n");
+    HuffmanCodes(data, freq, size);
 
     return 0;
 }
