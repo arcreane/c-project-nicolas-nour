@@ -22,4 +22,6 @@ struct Node* extractMin(struct PriorityQueue* queue);
 void insert(struct PriorityQueue* queue, struct Node* node);
 struct Node* buildHuffmanTree(char data[], unsigned freq[], int size);
 void printCodes(struct Node* root, int arr[], int top);
-void HuffmanCodes(char data[], unsigned freq[], int size);
+void translateChar(struct Node* root, int arr[], int top, char c);
+void translateText(struct Node* root, int arr[], int top, char filename[]);
+void HuffmanCodes(char data[], unsigned freq[], int size, char filename[]);

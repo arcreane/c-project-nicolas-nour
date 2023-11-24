@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 // Structure for a Huffman tree node
 struct Node {
@@ -128,8 +129,38 @@ void printCodes(struct Node* root, int arr[], int top) {
     }
 }
 
+void translateChar(struct Node* root, int arr[], int top, char c) {
+    if (root->left) {
+        arr[top] = 0;
+        translateChar(root->left, arr, top + 1, c);
+    }
+
+    if (root->right) {
+        arr[top] = 1;
+        translateChar(root->right, arr, top + 1, c);
+    }
+
+    if (!(root->left) && !(root->right)) {
+        if (c == root->data) {
+            for (int i = 0; i < top; ++i) {
+                printf("%d", arr[i]);
+            }
+        }
+    }
+}
+
+void translateText(struct Node* root, int arr[], int top, char filename[]) {
+    FILE *file;
+    char ch;
+    file = fopen(filename, "r");
+    while ((ch = fgetc(file)) != EOF) {
+        ch = tolower(ch);
+        translateChar(root, arr, top, ch);
+    }
+}
+
 // Function to build Huffman codes and print them
-void HuffmanCodes(char data[], unsigned freq[], int size) {
+void HuffmanCodes(char data[], unsigned freq[], int size, char filename[]) {
     // Build the Huffman tree
     struct Node* root = buildHuffmanTree(data, freq, size);
 
@@ -138,6 +169,9 @@ void HuffmanCodes(char data[], unsigned freq[], int size) {
 
     // Print the Huffman codes
     printCodes(root, arr, top);
+
+    // Translate the text from the inputed file
+    translateText(root, arr, top, filename);
 
     // Clean up memory
     free(root);
