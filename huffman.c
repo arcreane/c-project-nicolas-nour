@@ -176,7 +176,8 @@ int decodeChar(struct Node* root, int arr[], int top, char bin[]) {
     }
 
     if (!(root->left) && !(root->right)) {
-        char str[15] = {};
+        char* str = malloc(1000);
+        memset(str, 0, 1000);
         for (int i = 0; i < top; ++i) {
             char ch = (char)(arr[i] + 48);
             strncat(str, &ch, 1);
@@ -193,9 +194,13 @@ int decodeChar(struct Node* root, int arr[], int top, char bin[]) {
 void decodeText(struct Node* root, int arr[], int top, char filename[]) {
     FILE *file;
     char ch;
-    char bin[15] = {};
     int res;
     file = fopen(filename, "r");
+	fseek(file, 0L, SEEK_END);
+	int sz = ftell(file);
+    char* bin = (char*) malloc(sz);
+    memset(bin, 0, sz);
+	fseek(file, 0L, SEEK_SET);
     while ((ch = fgetc(file)) != EOF) {
         strncat(bin, &ch, 1);
         res = decodeChar(root, arr, top, bin);
@@ -204,12 +209,13 @@ void decodeText(struct Node* root, int arr[], int top, char filename[]) {
 }
 
 // Function to build Huffman codes and print them
-void HuffmanCodes(char data[], unsigned freq[], int size, char filename[], char code) {
+void HuffmanCodes(char data[], unsigned freq[], const int size, char filename[], char code) {
     // Build the Huffman tree
     struct Node* root = buildHuffmanTree(data, freq, size);
 
     // Create an array to store Huffman codes
-    int arr[size], top = 0;
+    int* arr= (int*)malloc(size*sizeof(int));
+    int top = 0;
 
     // Print the Huffman codes
     //printf("Huffman Codes:\n");
