@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 
-const int StringSize;
+const int StringSize = 1000;
 
 // Structure for a Huffman tree node
 struct Node {
