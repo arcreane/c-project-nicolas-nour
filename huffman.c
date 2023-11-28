@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <string.h>
 
+const int StringSize;
+
 // Structure for a Huffman tree node
 struct Node {
     char data;
@@ -155,7 +157,6 @@ void encodeText(struct Node* root, int arr[], int top, char filename[]) {
     char ch;
     file = fopen(filename, "r");
     while ((ch = fgetc(file)) != EOF) {
-        ch = tolower(ch);
         encodeChar(root, arr, top, ch);
     }
 }
@@ -176,8 +177,8 @@ int decodeChar(struct Node* root, int arr[], int top, char bin[]) {
     }
 
     if (!(root->left) && !(root->right)) {
-        char* str = malloc(1000);
-        memset(str, 0, 1000);
+        char* str = malloc(StringSize);
+        memset(str, 0, StringSize);
         for (int i = 0; i < top; ++i) {
             char ch = (char)(arr[i] + 48);
             strncat(str, &ch, 1);
@@ -221,7 +222,7 @@ void HuffmanCodes(char data[], unsigned freq[], const int size, char filename[],
     //printf("Huffman Codes:\n");
     //printCodes(root, arr, top);
 
-    printf("Output: %c\n", code);
+    printf("Output:\n");
     if (code == 'a') { // Translate the text from the inputed file
         encodeText(root, arr, top, filename);
     }
